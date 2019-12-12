@@ -6,7 +6,7 @@
       <div class="col-md-6 col-lg-4 mb-4 offset-md-1">
         <div class="card" style="width: 22rem;">
           <figure style="margin: 0">
-                <%= image_tag profile.avatar_attachment_path, class:"card-img-top", style:"height:350px;width:350px"%>
+            <%= image_tag profile.avatar_attachment_path, class:"card-img-top", style:"height:350px;width:350px"%>
           </figure>
           <% if current_user && current_user.id == profile.id %>
             <div class="card-body form-label-sm" style="padding:0.3rem 0rem 0.5rem 0rem; text-align: center;">
@@ -24,7 +24,7 @@
 
       <div class="col-md-5 col-lg-6 mb-4 pl-lg-5">
         <h4 class="text-black">Profile de <%= profile.first_name %> <%= profile.last_name %></h4>
-        <p class="text-black">Membre depuis <%= profile.user.created_at.strftime("%Y") %>
+        <p class="text-black">Membre depuis <%= profile.user.created_at.strftime("%Y") %>  
           <% if current_user && current_user.id == profile.id %>
              · <%= link_to "Modifier le profil", edit_profile_path(current_user.id), class: "form-label-sm"%>
           <% end %>
@@ -35,7 +35,7 @@
           <hr/>
         </div>
 
-        <h4> class="text-black">Convoyages effectués</h4>
+        <h4 class="text-black">Convoyages effectués</h2>
         <p>
           <a class="form-label-sm" data-toggle="collapse" href="#performed-convoys" role="button" aria-expanded="false" aria-controls="collapseExample">
             Cliquez ici pour voir la liste
@@ -49,13 +49,13 @@
             <% else %>
               <% profile.user.deliveries.each do |delivery| %>
                 <li>
-                  De <%= delivery.convoy.departure_port %>
-                  à <%= delivery.convoy.arrival_port %>,
-                  le <%= delivery.convoy.date_of_departure.strftime("%d/%m/%Y") %> -
+                  De <%= delivery.convoy.departure_port %> 
+                  à <%= delivery.convoy.arrival_port %>, 
+                  le <%= delivery.convoy.date_of_departure.strftime("%d/%m/%Y") %> - 
                   Durée : <%= delivery.convoy.duration.round(0) %> jours
                 </li>
               <% end %>
-            <% end %>
+            <% end %> 
             </ul>
           </div>
         </div>
@@ -64,62 +64,33 @@
           <hr/>
         </div>
         <h4 class="text-black">Commentaires</h4>
-
+        
         <!------------------ COMMENT BLOCK (to loop) --------------------->
-
-
-        <h1>Ajouter un commentaire</h1>
-        <%= form_tag profile_userfeedbacks_path(@profile) do %>
-
-
-
-        <p><%= label_tag :rating %>
-        <%= number_field_tag :rating %></p>
-        <p><%= label_tag :comment %>
-        <%= text_area_tag :comment %></p>
-        <p><%= submit_tag "Soumettre" %></p>
-        <% end %>
-
-        <% @userfeedback.each do |feedback| %>
         <div class="media pt-3">
-          <p><%= feedback.rating %></p>
-        </div>
-        <div class="media pt-3">
-          <p><%= feedback.comment %></p>
-        </div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum velit officiis reiciendis sit nostrum accusantium explicabo, saepe, architecto ea sunt sequi dignissimos beatae aut deserunt maxime! Voluptas, distinctio! Cumque, eum!</p>
+        </div>  
         <div class="media pt-3 border-bottom border-gray">
           <%= image_tag(profile.avatar_attachment_path, class:"w-05 mb-3 rounded-circle") %>
           <div class="col-lg-7 pl-lg-7">
             <p class="media-body pb-3 mb-0 lh-125 ">
-              <span class="form-label-tiny"><%=feedback.user.profile.first_name%></span>
+              <span class="form-label-tiny">Firstname Name</span>
               <span class="footnotesize">Membre depuis <%= profile.user.created_at.strftime("%Y") %></span>
             </p>
           </div>
         </div>
-        <% end %>
 
-
-
-        <% @userfeedback.each do |feedback| %>
-
-        <p>
-          <strong>Note</strong>
-          <%= feedback.user %>
-        </p>
-
-        <p>
-          <strong>Note</strong>
-          <%= feedback.rating %>
-        </p>
-
-        <p>
-          <strong>Commentaire</strong>
-          <%= feedback.comment %>
-        </p>
-        <% end %>
-
-
-
+        <div class="media pt-3">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum velit officiis reiciendis sit nostrum accusantium explicabo, saepe, architecto ea sunt sequi dignissimos beatae aut deserunt maxime! Voluptas, distinctio! Cumque, eum!</p>
+        </div>  
+        <div class="media pt-3 border-bottom border-gray">
+          <%= image_tag(profile.avatar_attachment_path, class:"w-05 mb-3 rounded-circle") %>
+          <div class="col-lg-7 pl-lg-7">
+            <p class="media-body pb-3 mb-0 lh-125 ">
+              <span class="form-label-tiny">Firstname Name</span>
+              <span class="footnotesize">Membre depuis <%= profile.user.created_at.strftime("%Y") %></span>
+            </p>
+          </div>
+        </div>
         <!------------------ END COMMENT BLOCK --------------------->
 
       </div>

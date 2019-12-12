@@ -83,15 +83,16 @@
 <!------------------------------- END FILTER AND ITEM LIST SECTION ------------------------>
 
         <!------------------------------- PAGINATION ------------------------>
-        <div class="col-md-9 order-2 order-md-1">
-          <div class="row mt-4">
-            <div class="col-md-9">
-              <div class="custom-pagination text-center">
-                  <div class="more-page"><%= paginate @convoys %></div>
-              </div>
+
+        <div class="row mt-4">
+          <div class="col-md-9">
+            <div class="custom-pagination d-flex justify-content-center bd-highlight mb-3 text-center">
+              <div class="more-page"><%= paginate @convoys, :outer_window => 1, :window => 1 %></div>
             </div>
           </div>
         </div>
+      </div>
+
         <!------------------------------- END PAGINATION ------------------------>
 
       </div>

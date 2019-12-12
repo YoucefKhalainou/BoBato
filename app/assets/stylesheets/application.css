@@ -22,28 +22,3 @@
  *= require style
  *= require main
  */
-
-
-.custom-pagination a, .custom-pagination span {
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  border-radius: 50%;
-  display: inline-block;
-  background: #21A0BF;
-  color: #fff; }
-
-.custom-pagination span {
-  background: #e6e6e6;
-  color: #000; }
-
-
-.custom-pagination .more-page {
-  background: none;
-}
-
-.col-md-9 {
- width: 50%;
- padding-bottom: 30px;
- margin: 0 auto;
-}

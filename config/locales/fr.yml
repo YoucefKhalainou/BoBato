@@ -2,7 +2,7 @@ fr:
   views:
     pagination:
       first: "&laquo; Première"
-      last: "Dernière &raquo;"
+      last: "&raquo; Dernière;"
       previous: "&lt; Précédente"
-      next: "Suivante &gt;"
+      next: "&gt; Suivante"
       truncate: "..."

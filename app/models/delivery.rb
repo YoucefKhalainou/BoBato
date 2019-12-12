@@ -21,8 +21,8 @@ class Delivery < ApplicationRecord
     UserMailer.delivery_to_admin_email(self).deliver_now
   end
 
-  def create_after_checkout(convoy, skipper, token)
-	  Delivery.create(
+  def after_checkout(convoy, skipper, token)
+	  Delivery.new(
 								skipper: skipper, 
 								convoy: convoy,
 								stripe_id: token,

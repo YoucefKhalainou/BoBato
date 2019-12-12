@@ -19,28 +19,25 @@
             <li><%= link_to "Mes candidatures", user_submissions_path(current_user.id), :method => :get, class: "nav-link swing" %></li>
             <li><%= link_to "Mes convoyages proposés", user_my_convoys_path(current_user.id), :method => :get, class: "nav-link swing" %></li>
 
-              <div class="btn-group right-nav" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
-                <%= image_tag current_user.profile.avatar_attachment_path, style:"max-height: 40px!important; width: auto", class:"rounded-circle" %>
-              </div>
+            <div class="btn-group right-nav marg-30" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+              <%= image_tag current_user.profile.avatar_attachment_path, style:"max-height: 40px!important; width: auto", class:"rounded-circle" %>
+            </div>
 
-                <div class="dropdown-menu dropdown-menu-right">
-                  <button class="dropdown-item form-label" type="button"><%= link_to "Profile", profile_path(current_user.id), :method => :get, class:"text-black" %></button>
-                  <button class="dropdown-item form-label" type="button"><%= link_to "Configuration", edit_user_registration_path, :method => :get, class:"text-black" %></button>
-                  <button class="dropdown-item form-label" type="button"><%= link_to "Se déconnecter", destroy_user_session_path, :method => :delete, class:"text-black" %></button>
-                </div>
-              </div>
+            <div class="dropdown-menu dropdown-menu-right">
+              <button class="dropdown-item form-label" type="button"><%= link_to "Profile", profile_path(current_user.id), :method => :get, class:"text-black" %></button>
+              <button class="dropdown-item form-label" type="button"><%= link_to "Configuration", edit_user_registration_path, :method => :get, class:"text-black" %></button>
+              <button class="dropdown-item form-label" type="button"><%= link_to "Se déconnecter", destroy_user_session_path, :method => :delete, class:"text-black" %></button>
+            </div>
               
           <% else %> 
-
             <li><a href="#" class="nav-link" data-toggle="modal" data-target="#loginAs">Se connecter</a></li>
-
           <% end %>
 
         </ul>
 
       </nav>
     </div>
-
+    <div class="col-6 d-inline-block d-xl-none ml-md-0 py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-white float-right"><span class="icon-menu h3"></span></a></div>
   </div>
 </div>
 

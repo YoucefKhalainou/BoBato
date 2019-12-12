@@ -26,11 +26,15 @@ class ChargesController < ApplicationController
 	  })
 
 	  # Create new delivery for the considered convoy, with the selected skipper
-		Delivery.new.create_after_checkout(@my_convoy, @skipper, params[:stripeToken])
-
-    # For the considered convoy, pass all submissions status to false (rejected), except the one with the selected skipper
-	  @my_convoy.update_submissions_status_after_checkout(@skipper)
-	  redirect_to request.referrer
+		@delivery = Delivery.new.after_checkout(@my_convoy, @skipper, params[:stripeToken])
+		if @delivery.save
+      flash[:success] = "Convoyage validé"
+      @my_convoy.update_submissions_status_after_checkout(@skipper)
+      redirect_to request.referrer   
+    else
+      flash[:errors] = @delivery.errors.full_messages
+      redirect_to request.referrer
+    end
 	end
 
 end
