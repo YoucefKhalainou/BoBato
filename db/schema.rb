@@ -85,17 +85,6 @@ ActiveRecord::Schema.define(version: 2019_12_11_124357) do
     t.index ["skipper_id"], name: "index_submissions_on_skipper_id"
   end
 
-  create_table "user_feedbacks", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "profile_id"
-    t.integer "rating"
-    t.string "comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["profile_id"], name: "index_user_feedbacks_on_profile_id"
-    t.index ["user_id"], name: "index_user_feedbacks_on_user_id"
-  end
-
   create_table "userfeedbacks", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "profile_id"
