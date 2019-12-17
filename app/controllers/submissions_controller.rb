@@ -4,7 +4,7 @@ class SubmissionsController < ApplicationController
 	before_action :authenticate_user!, only: [:index, :create]
 
 	def index
-		@submissions = current_user.submissions
+		@submissions = current_user.submissions.order(created_at: :desc)
 	end
 
 	def create

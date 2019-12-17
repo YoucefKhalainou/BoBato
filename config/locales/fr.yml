@@ -6,3 +6,7 @@ fr:
       previous: "&lt; Précédente"
       next: "&gt; Suivante"
       truncate: "..."
+
+en:
+  errors:
+    format: "%{message}"

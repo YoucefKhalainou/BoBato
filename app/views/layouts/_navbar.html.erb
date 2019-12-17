@@ -24,8 +24,8 @@
             </div>
 
             <div class="dropdown-menu dropdown-menu-right">
-              <button class="dropdown-item form-label" type="button"><%= link_to "Profile", profile_path(current_user.id), :method => :get, class:"text-black" %></button>
-              <button class="dropdown-item form-label" type="button"><%= link_to "Configuration", edit_user_registration_path, :method => :get, class:"text-black" %></button>
+              <button class="dropdown-item form-label" type="button"><%= link_to "Mon profil", profile_path(current_user.id), :method => :get, class:"text-black" %></button>
+              <button class="dropdown-item form-label" type="button"><%= link_to "Paramètres", edit_user_registration_path, :method => :get, class:"text-black" %></button>
               <button class="dropdown-item form-label" type="button"><%= link_to "Se déconnecter", destroy_user_session_path, :method => :delete, class:"text-black" %></button>
             </div>
               

@@ -1,12 +1,11 @@
 class ChargesController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create]
 
 	def new
 	end
 
 	def create
-		puts '$'*40
-		puts params.inspect
-		puts '$'*40
+
 	  @my_convoy = Convoy.find(params[:convoy_id])
 	  @skipper = User.find(params[:skipper_id])
 		@submissions = Submission.where(convoy: @my_convoy)

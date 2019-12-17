@@ -2,7 +2,7 @@ class Delivery < ApplicationRecord
 	belongs_to :skipper, class_name: 'User'
 	belongs_to :convoy
 
-	validate :skipper_must_be_available_for_this_convoy
+	validate :skipper_must_be_available_for_this_convoy, on: :create
 	after_create :delivery_conf_email_send, :delivery_to_admin_email_send,
 
 

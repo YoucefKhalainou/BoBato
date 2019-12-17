@@ -1,0 +1,105 @@
+
+<section class="site-section bg-light bg-image" id="new_convoy">
+  	<div class="row d-flex justify-content-center">
+    	<div class="col-md-9">
+      		<div class="p-5 bg-white">
+        		<div class="col-md-12">
+
+        			<%=form_for(convoy, multipart: true) do |f|%>
+						<div class="row form-group">
+							<div class="col-3">
+								<span class="custom-icon flaticon-boat text-black"></span>
+			          		</div>
+			          		<div class="col-9 my-auto">
+			            		<h4 class="modal-title text-black text-right" id="exampleModalCenterTitle">Soumettre une proposition de convoyage</h4>
+			          		</div>
+						</div>
+
+		          		<div class="row form-group">
+			          		<div class="col-md-6 mb-3 mb-md-0">
+			          			<label class="text-black form-label">Titre</label>
+			            		<div class="input-group mb-2 mr-sm-2">
+			               			<%= f.text_field('title', value = convoy.title, class:"form-control", placeholder:"Traversée à bord du Vogue Merry", required: true)%>
+			            		</div>
+			          		</div>
+			          		<div class="col-md-6 mb-3 mb-md-0">
+			          			<label class="text-black form-label">Type de bateau</label>
+			             		<div class="input-group mb-2 mr-sm-2">
+			               			<%= f.text_field('boat_type', value = convoy.boat_type, class:"form-control", placeholder:"ex: Voilier, Catamaran, Yacht etc.", required: true)%>
+			               		</div>
+			                </div>
+						</div>
+						
+						<div class="row form-group">
+				            <div class="col-md-6 mb-3 mb-md-0">
+				             	<label class="text-black form-label">Port de départ</label>
+				            	<div class="input-group mb-2 mr-sm-2">
+				              		<%= f.text_field('departure_port', value = convoy.departure_port, class:"form-control", placeholder:"ex: Marseille", required: true)%>
+				            	</div>
+				          	</div>
+				          	<div class="col-md-6 mb-3 mb-md-0">
+				             	<label class="text-black form-label">Port d’arrivée</label>
+				            	<div class="input-group mb-2 mr-sm-2">
+				              		<%= f.text_field('arrival_port', value = convoy.arrival_port, class:"form-control", placeholder:"ex: Le Pirée", required: true)%>
+				            	</div>
+				          	</div>
+						</div>
+
+						<div class="row form-group">
+				          	<div class="col-md-6 mb-3 mb-md-0">
+				             	<label class="text-black form-label">Date de départ</label>
+				            	<div class="input-group mb-2 mr-sm-2">
+				              		<%= f.date_field('date_of_departure', value = convoy.date_of_departure,class:"form-control", value: Date.today + 1.day, required: true)%>
+				            	</div>
+				          	</div>
+				          	<div class="col-md-6 mb-3 mb-md-0">
+				             	<label class="text-black form-label">Date d’arrivée</label>
+				            	<div class="input-group mb-2 mr-sm-2">
+				              		<%= f.date_field('date_of_arrival', value = convoy.date_of_departure, class:"form-control", value: Date.today + 2.day, required: true)%>
+				            	</div>
+				          	</div>
+				         </div>
+
+						<div class="row form-group">
+					        <div class="col-md-6 mb-3 mb-md-0">
+					            <label class="text-black form-label">Licence requise</label>
+					            <div class="input-group mb-2 mr-sm-2">
+					              	<%= f.text_field('required_license', value = convoy.required_license, class:"form-control", placeholder:"Permis côtier, hauturier...", required: true)%>
+					            </div>
+					        </div>
+					        <div class="col-md-6 mb-3 mb-md-0">
+				             	<label class="text-black form-label">Rémunération du convoyage</label>
+				            	<div class="input-group mb-2 mr-sm-2">
+				               		<%= f.number_field('convoy_price',value = convoy.convoy_price, min:"0", class:"form-control", placeholder:"€", required: true) %>
+				            	</div>
+				          	</div>
+						</div>
+
+						<div class="row form-group">
+				            <div class="col-md-12 mb-3 mb-md-0">
+				             	<label class="text-black form-label">Description</label>
+				            	<div class="input-group mb-2 mr-sm-2">
+				              		<%= f.text_area('description', value = convoy.description, class:"form-control", rows:"5", placeholder:"Décrivez votre besoin en quelques lignes", required: true) %>
+				            	</div>
+				          	</div>
+				         </div>
+						
+						<div class="row form-group">
+				          	<div class="col-12">
+			            		<span class="form-label">
+			            			Ajouter des images : 
+			               			<%= f.file_field('pictures[]', multiple:true) %>
+			  					</span>
+			  				</div>
+
+				         	<div class="col-md-12">
+				            	<%= f.submit("Valider ma demande", class:"btn btn-primary btn-lg btn-block text-white form-label", style:"margin-top:1rem; margin-bottom:1rem;") %>
+				          	</div>
+				        </div>
+        			<% end %>
+
+		        </div>
+		    </div>
+		</div>
+	</div>
+</section>

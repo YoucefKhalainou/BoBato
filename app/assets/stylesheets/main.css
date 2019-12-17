@@ -9,8 +9,8 @@
 }
 
 .card-image {
-    width: 150px;
-    height: 227px;
+    min-width: 150px;
+    min-height: 227px;
 }
 
 .text-label {
@@ -64,6 +64,10 @@ p span {
 
 .big-modal {
     max-width: 70rem;
+}
+
+.md-modal {
+    max-width: 50rem;
 }
 
 @-webkit-keyframes swing

@@ -1,0 +1,71 @@
+<!------------------------ EDIT USER PROFILE FORM ----------------------------------------------------->
+<div class="modal-dialog modal-dialog-centered md-modal" role="document">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLongTitle">Editer mon profil</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="row d-flex justify-content-center">
+
+        <div class="col-md-12 personal-info"> 
+
+          <%=form_tag profile_path(profile), method: :put do %>
+            
+            <div class="row form-group">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <label class="text-black form-label">Nom</label>
+                <div class="input-group mb-2 mr-sm-2">
+                    <%= text_field_tag 'last_name', value = profile.last_name, class:"form-control"%>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3 mb-md-0">
+                <label class="text-black form-label">Prénom</label>
+                <div class="input-group mb-2 mr-sm-2">
+                  <%= text_field_tag 'first_name',value = profile.first_name, class:"form-control"%>
+                </div>      
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <label class="text-black form-label">Date de naissance</label>
+                <div class="input-group mb-2 mr-sm-2">
+                  <%= date_field_tag 'birthdate',value = profile.birthdate, class:"form-control"%>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3 mb-md-0">
+                <label class="text-black form-label">Ville</label>
+                <div class="input-group mb-2 mr-sm-2">
+                  <%= text_field_tag 'city', value = profile.city, class:"form-control"%>
+                </div>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-12 mb-3 mb-md-0">
+                <label class="text-black form-label">Description</label>
+                <div class="input-group mb-2 mr-sm-2">
+                    <%= text_area_tag 'description', value = profile.description, class:"form-control", rows:"3"%>
+                </div>
+              </div>
+               
+              <div class="col-md-12 mb-3 mb-md-0">
+                <%= submit_tag "Modifier", class:"btn btn-primary btn-lg btn-block text-white form-label", style:"margin-top:1rem; margin-bottom:1rem;" %>
+              </div>
+            </div>
+
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!------------------------ EDIT USER PROFILE FORM -------------------------------------------->

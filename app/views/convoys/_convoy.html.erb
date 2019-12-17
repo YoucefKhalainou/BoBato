@@ -1,0 +1,16 @@
+<% convoys.each_with_index do |convoy, i| %>
+  <div class="col-md-6 col-lg-4 mb-5 mb-lg-5 ">
+    <div class="ftco-media-1">
+      <div class="ftco-media-1-inner">
+        <a href="<%= convoy_path(convoy.id) %>" class="d-inline-block mb-4">
+          <%= image_tag(convoy.picture_attachment_path, style:"height:346px; width:228px;")%>
+        </a>
+        <div class="ftco-media-details">
+          <h3><%= convoy.boat_type %></h3>
+          <p><%= convoy.departure_port %> - <%= convoy.arrival_port %></p>
+          <strong><%= number_with_delimiter(convoy.convoy_price.round(0), delimiter: " ") %> €</strong>
+        </div>
+      </div> 
+    </div>
+  </div>
+<% end %>

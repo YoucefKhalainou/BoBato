@@ -1,0 +1,14 @@
+console.log('coucou')
+function replaceConvoys(innerHTML) {
+  const convoys = document.getElementById('convoys');
+  convoys.innerHTML = innerHTML;
+}
+
+
+if ('<%= @filter %>' === "[]") {
+replaceConvoys("<%= j render 'convoy', convoys: Convoy.where("date_of_departure >= ?", Time.current).order(created_at: :desc).page(params[:page]).per(6) %>");
+}
+else {
+replaceConvoys("<%= escape_javascript(render 'convoy', convoys: @convoys) %>");
+}
+

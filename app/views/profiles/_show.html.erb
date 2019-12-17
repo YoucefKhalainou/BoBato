@@ -10,23 +10,28 @@
           </figure>
           <% if current_user && current_user.id == profile.id %>
             <div class="card-body form-label-sm" style="padding:0.3rem 0rem 0.5rem 0rem; text-align: center;">
-              <%= link_to "Mettre à jour la photo" %>
+              <a href="#editAvatar" data-toggle="modal" data-target="#editAvatar">Mettre à jour sa photo</a>
             </div>
           <% end %>
 
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><i class="fas fa-home" style="margin-right:1rem;"></i> Habite à <%= profile.city %></li>
-            <li class="list-group-item"><i class="fas fa-birthday-cake" style="margin:0rem 1.3rem 0rem 0.2rem;"></i>Né(e) le <% profile.birthdate ? profile.birthdate.strftime("%d/%m/%Y") : "" %></li>
+            <li class="list-group-item"><i class="fas fa-birthday-cake" style="margin:0rem 1.3rem 0rem 0.2rem;"></i>Né(e) le <%= profile.birthdate ? profile.birthdate.strftime("%d/%m/%Y") : "" %></li>
             <li class="list-group-item"><i class="far fa-id-badge" style="margin:0rem 1.3rem 0rem 0.3rem;"></i>Tous permis</li>
           </ul>
         </div>
+        <% if current_user && profile.id != current_user.id %>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#commentModal", style="margin-top:1rem; width: 22rem;">
+            Commenter le profil
+          </button>
+        <% end %>
       </div>
 
       <div class="col-md-5 col-lg-6 mb-4 pl-lg-5">
-        <h4 class="text-black">Profile de <%= profile.first_name %> <%= profile.last_name %></h4>
+        <h4 class="text-black">Profil de <%= profile.first_name %> <%= profile.last_name %></h4>
         <p class="text-black">Membre depuis <%= profile.user.created_at.strftime("%Y") %>  
           <% if current_user && current_user.id == profile.id %>
-             · <%= link_to "Modifier le profil", edit_profile_path(current_user.id), class: "form-label-sm"%>
+             · <a href="#editProfile" class= "form-label-sm" data-toggle="modal" data-target="#editProfile">Modifier le profil</a>
           <% end %>
         </p>
         <p><%= profile.description %></p>
@@ -64,38 +69,166 @@
           <hr/>
         </div>
         <h4 class="text-black">Commentaires</h4>
-        
-        <!------------------ COMMENT BLOCK (to loop) --------------------->
-        <div class="media pt-3">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum velit officiis reiciendis sit nostrum accusantium explicabo, saepe, architecto ea sunt sequi dignissimos beatae aut deserunt maxime! Voluptas, distinctio! Cumque, eum!</p>
-        </div>  
-        <div class="media pt-3 border-bottom border-gray">
-          <%= image_tag(profile.avatar_attachment_path, class:"w-05 mb-3 rounded-circle") %>
-          <div class="col-lg-7 pl-lg-7">
-            <p class="media-body pb-3 mb-0 lh-125 ">
-              <span class="form-label-tiny">Firstname Name</span>
-              <span class="footnotesize">Membre depuis <%= profile.user.created_at.strftime("%Y") %></span>
-            </p>
-          </div>
-        </div>
-
-        <div class="media pt-3">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum velit officiis reiciendis sit nostrum accusantium explicabo, saepe, architecto ea sunt sequi dignissimos beatae aut deserunt maxime! Voluptas, distinctio! Cumque, eum!</p>
-        </div>  
-        <div class="media pt-3 border-bottom border-gray">
-          <%= image_tag(profile.avatar_attachment_path, class:"w-05 mb-3 rounded-circle") %>
-          <div class="col-lg-7 pl-lg-7">
-            <p class="media-body pb-3 mb-0 lh-125 ">
-              <span class="form-label-tiny">Firstname Name</span>
-              <span class="footnotesize">Membre depuis <%= profile.user.created_at.strftime("%Y") %></span>
-            </p>
-          </div>
-        </div>
-        <!------------------ END COMMENT BLOCK --------------------->
-
+        <% if profile.user.received_comments.empty? %>
+          <p> <%= (current_user && current_user.id == profile.id) ? "Vous n'avez aucun commentaire pour le moment." : "Aucun commentaire pour le moment." %></p>
+        <% else %>
+          <% profile.user.received_comments.reverse.each do |comment| %>
+          <!------------------ COMMENT BLOCK (to loop) --------------------->
+            <div class="media pt-3">
+              <p><%= comment.review %></p>
+            </div>  
+            <div class="media pt-3 border-bottom border-gray">
+              <%= image_tag(comment.user.profile.avatar_attachment_path, class:"w-05 mb-3 rounded-circle") %>
+              <div class="col-lg-7 pl-lg-7">
+                <p class="media-body pb-3 mb-0 lh-125 ">
+                  <span class="form-label-tiny"><%= comment.user.profile.first_name %> <%= comment.user.profile.last_name %></span>
+                  <span class="footnotesize">Membre depuis <%= comment.user.created_at.strftime("%Y") %></span>
+                </p>
+              </div>
+            </div>
+            <!------------------ END COMMENT BLOCK --------------------->
+          <% end %>
+        <% end %>
       </div>
 
     </div>
   </div>
 </div>
+
+<!------------------------ EDIT AVATAR MODAL ---------------------------------->
+<div class="modal fade" id="editAvatar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"> 
+  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLongTitle">Modifier ma photo de profil</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="container">
+        <div class="row d-flex justify-content-center">
+          <figure style="margin: 0">
+            <%= image_tag profile.avatar_attachment_path, class:"card-img-top", style:"height:350px;width:350px"%>
+          </figure>    
+          <%= form_tag profile_avatars_path(profile.id), multipart: true do %>
+            <span class="form-label">
+                <%= file_field_tag :avatar%>
+            </span>
+          <%= submit_tag "Mettre à jour", class:"btn btn-primary btn-block", style:"width:350px;" %>
+          <% end %>
+        </div>
+      </div>        
+    </div>
+
+  </div>
+</div>
+</div>
+<!------------------------ END EDIT AVATAR MODAL ------------------------------>
+
+<!------------------------ EDIT PROFILE MODAL ---------------------------------->
+<div class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"> 
+  <!------------------------ EDIT USER PROFILE FORM ----------------------------------------------------->
+  <div class="modal-dialog modal-dialog-centered md-modal" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Editer mon profil</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row d-flex justify-content-center">
+
+          <div class="col-md-12 personal-info"> 
+
+            <%=form_tag profile_path(profile), method: :put do %>
+              
+              <div class="row form-group">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label class="text-black form-label">Nom</label>
+                  <div class="input-group mb-2 mr-sm-2">
+                      <%= text_field_tag 'last_name', value = profile.last_name, class:"form-control"%>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label class="text-black form-label">Prénom</label>
+                  <div class="input-group mb-2 mr-sm-2">
+                    <%= text_field_tag 'first_name',value = profile.first_name, class:"form-control"%>
+                  </div>      
+                </div>
+              </div>
+
+              <div class="row form-group">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label class="text-black form-label">Date de naissance</label>
+                  <div class="input-group mb-2 mr-sm-2">
+                    <%= date_field_tag 'birthdate',value = profile.birthdate, class:"form-control"%>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label class="text-black form-label">Ville</label>
+                  <div class="input-group mb-2 mr-sm-2">
+                    <%= text_field_tag 'city', value = profile.city, class:"form-control"%>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row form-group">
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <label class="text-black form-label">Description</label>
+                  <div class="input-group mb-2 mr-sm-2">
+                      <%= text_area_tag 'description', value = profile.description, class:"form-control", rows:"3"%>
+                  </div>
+                </div>
+                 
+                <div class="col-md-12 mb-3 mb-md-0">
+                  <%= submit_tag "Modifier", class:"btn btn-primary btn-lg btn-block text-white form-label", style:"margin-top:1rem; margin-bottom:1rem;" %>
+                </div>
+              </div>
+
+            <% end %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!------------------------ EDIT USER PROFILE FORM -------------------------------------------->
+</div>
+<!------------------------ END PROFILE AVATAR MODAL ------------------------------>
+
+<!--------------- WRITE A COMMENT MODAL -------------->
+<% if current_user %>
+  <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Ecrivez un commentaire</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= form_tag comments_path, method: "post" do %>
+            <%= hidden_field_tag :user_id , current_user.id %>
+            <%= hidden_field_tag :recipient_id , profile.id %>
+            <%= text_area_tag 'review', nil, class: "form-control", rows:"5", placeholder: "Laissez un commentaire concernant ce profil" %>
+        </div>
+        <div class="modal-footer">
+          <%= submit_tag "Publier", class: "btn btn-primary btn-lg btn-block" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<!--------------- END WRITE A COMMENT MODAL -------------->
+
 <!------------------------ END USER PROFILE ----------------------------------------------------->

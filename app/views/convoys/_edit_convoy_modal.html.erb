@@ -1,0 +1,107 @@
+<div class="modal-dialog modal-dialog-centered md-modal" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalCenterTitle">Modifier les information du convoyage</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-12">
+            <div class="bg-white">
+              <div class="col-md-12">
+
+                <%=form_tag convoy_path(convoy), multipart: true, method: :put do %>
+
+                  <div class="row form-group">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                      <label class="text-black form-label">Titre</label>
+                      <div class="input-group mb-2 mr-sm-2">
+                        <%= text_field_tag 'title', value = convoy.title, class:"form-control", placeholder:"Traversée à bord du Vogue Merry", required: true%>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-3 mb-md-0">
+                      <label class="text-black form-label">Type de bateau</label>
+                      <div class="input-group mb-2 mr-sm-2">
+                        <%= select_tag 'boat_type', options_for_select($boat_types, :selected => convoy.boat_type), class:"form-control", required: true %>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="row form-group">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                      <label class="text-black form-label">Port de départ</label>
+                      <div class="input-group mb-2 mr-sm-2">
+                        <%= select_tag 'departure_port', options_for_select($departure_ports, :selected => convoy.departure_port), class:"form-control", required: true%>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-3 mb-md-0">
+                      <label class="text-black form-label">Port d’arrivée</label>
+                      <div class="input-group mb-2 mr-sm-2">
+                        <%= select_tag 'arrival_port', options_for_select($arrival_ports, :selected => convoy.arrival_port), class:"form-control", required: true%>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row form-group">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                      <label class="text-black form-label">Date de départ</label>
+                      <div class="input-group mb-2 mr-sm-2">
+                        <%= date_field_tag 'date_of_departure', value = convoy.date_of_departure,class:"form-control", value: convoy.date_of_departure, required: true %>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-3 mb-md-0">
+                      <label class="text-black form-label">Date d’arrivée</label>
+                      <div class="input-group mb-2 mr-sm-2">
+                        <%= date_field_tag 'date_of_arrival', value = convoy.date_of_arrival, class:"form-control", value: convoy.date_of_arrival, required: true %>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row form-group">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                      <label class="text-black form-label">Licence requise</label>
+                      <div class="input-group mb-2 mr-sm-2">
+                        <%= text_field_tag 'required_license', value = convoy.required_license, class:"form-control", placeholder:"Permis côtier, hauturier...", required: true%>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-3 mb-md-0">
+                      <label class="text-black form-label">Rémunération du convoyage</label>
+                      <div class="input-group mb-2 mr-sm-2">
+                        <%= number_field_tag 'convoy_price',value = convoy.convoy_price, min:"0", class:"form-control", placeholder:"€", required: true %>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row form-group">
+                    <div class="col-md-12 mb-3 mb-md-0">
+                      <label class="text-black form-label">Description</label>
+                      <div class="input-group mb-2 mr-sm-2">
+                        <%= text_area_tag 'description', value = convoy.description, class:"form-control", rows:"5", placeholder:"Décrivez votre besoin en quelques lignes", required: true %>
+                      </div>
+                    </div>
+                   </div>
+                  
+                    <div class="row form-group">
+                      <div class="col-12">
+                        <span class="form-label">
+                          Ajouter des images : 
+                            <%= file_field_tag 'pictures[]', multiple:true %>
+                        </span>
+                    </div>
+
+                    <div class="col-md-12">
+                      <%= submit_tag "Modifier les informations", class:"btn btn-primary btn-lg btn-block text-white form-label", style:"margin-top:1rem; margin-bottom:1rem;" %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+</div>

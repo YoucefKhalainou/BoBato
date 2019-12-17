@@ -10,15 +10,17 @@ class ApplicationRecord < ActiveRecord::Base
 		current_end = self.convoy.date_of_departure
 		skipper_available = true
 
-		# For each one check if the skipper is available
-		skipper_deliveries.each do |delivery|
-
-			undercheck_start = delivery.convoy.date_of_departure
-			undercheck_end = delivery.convoy.date_of_departure
-			if undercheck_start <= current_end && undercheck_end >= current_start
-				skipper_available = false
-			end	
-
+		if skipper_deliveries.empty?
+			return skipper_available
+		else
+			# For each one check if the skipper is available
+			skipper_deliveries.each do |delivery|
+				undercheck_start = delivery.convoy.date_of_departure
+				undercheck_end = delivery.convoy.date_of_departure
+				if undercheck_start <= current_end && undercheck_end >= current_start
+					skipper_available = false
+				end	
+			end
 		end
 		return skipper_available	
 	end

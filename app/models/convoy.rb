@@ -1,12 +1,9 @@
 class Convoy < ApplicationRecord
-
   has_many_attached :pictures
-
 	belongs_to :boat_owner, class_name: 'User'
-	has_one :delivery
-	has_many :submissions
+	has_one :delivery, dependent: :destroy
+	has_many :submissions, dependent: :destroy
 	has_many :applicants, through: :submissions, :source => :skipper
-
 
 	validates :date_of_departure, presence: { message: "Il n'y a pas de date de départ"}
   validates :date_of_arrival, presence: { message: "Il n'y a pas de date d'arrivée"}
@@ -15,28 +12,49 @@ class Convoy < ApplicationRecord
   validates :boat_type, presence: { message: "Il faut spécifier le type de votre bateau"}
   validate :departure_must_be_in_future
   validate :departure_must_be_before_arrival
-  after_create :convoy_conf_email_send,
+  $boat_types = ["Yacht", "Catamaran", "Voilier", "Chalutier", "Péniche", "Bateau-corsaire", "Deux-mâts", "Trois-mâts", "Bâteau cabine", "Croiseur", "Hors-Bord", "Bateau maison"]
+  $departure_ports = ["Marseille", "Mykonos", "Barcelone", "Athènes", "Tanger", "Genes", "Hambourg", "Rotterdam", "Amsterdam", "Saint-Nazaire", "Le Havre", "Bizerte", "Brighton"]
+  $arrival_ports = ["Toulon", "Ajaccio", "Bonifacio", "Split", "Palerme", "Dubrovnik", "Le Pirée", "Malaga", "Ibiza", "Hyères", "Naples", "Syracuse", "Trapani", "Lipari", "Cagliari"]
+  acts_as_taggable_on :departure_ports
+  acts_as_taggable_on :boat_types
+  after_create :convoy_conf_email_send
+  after_create :create_tag
 
+  include PgSearch::Model 
+
+
+  pg_search_scope :global_search,
+    against: [:title, :description],
+    associated_against: {
+      departure_ports: [:name],
+      boat_types: [:name]
+    },
+    using: {
+      tsearch: {prefix: true}
+    }
+
+  def create_tag
+    self.update(departure_port_list: self.departure_port)
+    self.update(boat_type_list: self.boat_type)
+  end
 
   def duration
-  	(self.date_of_arrival - self.date_of_departure)/(60*60*24).round(0)
+  	(self.date_of_arrival - self.date_of_departure).to_i
   end
 
 
   def outdated_convoy
-    return true if self.date_of_departure < Time.now
-  end
-
-
-  def good_convoy
-    return true if self.date_of_departure > Time.now
+    if self.date_of_departure < Time.now
+      return true
+    else
+      return false
+    end
   end
 
 
   def convoy_conf_email_send
     UserMailer.convoy_conf_email(self).deliver_now
   end
-
 
 
   def update_submissions_status_after_checkout(skipper)
@@ -51,7 +69,7 @@ class Convoy < ApplicationRecord
   end
 
   def picture_attachment_path
-    self.pictures.attached? ? pictures[0] : 'no-picture.png'
+    self.pictures.attached? ? pictures.last() : 'no-picture.png'
   end
 
 	private

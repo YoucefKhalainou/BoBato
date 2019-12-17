@@ -4,49 +4,52 @@
 <%= render 'banner' %>
 <!------------------------ END BANNER ----------------------------------------------------->
 
+<%= render :partial => "shared/errors" %>
 
 <!------------------------ MY CONVOYS LIST ----------------------------------------------------->
 <section class="site-section bg-light bg-image", id="login">
     <div class="row d-flex justify-content-center"> 
      
     <% if @submissions.size == 0 %>
-      <h4>Vous n'avez répondu aucune proposition de convoyage pour le moment.</h4>
+      <h4>Vous n'avez répondu à aucune proposition de convoyage pour le moment.</h4>
     <% else %>
       <% @submissions.each_with_index do |submission,i| %>
-        <div class="card mb-6" style="max-width: 900px; margin-bottom: 2rem">
-            <div class="row no-gutters">
-              <div class="col-md-2">
-                  <%= image_tag(submission.convoy.picture_attachment_path, class:'card-img') %>
-              </div>
-            <div class="col-md-10">
-              <div class="card-body", style="padding-bottom: 0;">
-                
-                <div class="row">
+        <div class="col-10 offset-md-2">
+          <div class="card mb-6" style="max-width: 900px; margin-bottom: 2rem">
+              <div class="row no-gutters">
+                <div class="col-md-2">
+                    <%= image_tag(submission.convoy.picture_attachment_path, class: "img-fluid") %>
+                </div>
+              <div class="col-md-10">
+                <div class="card-body", style="padding-bottom: 0;">
+                  
+                  <div class="row">
 
-                  <div class="col-6">
-                    <a href="<%= convoy_path(submission.convoy.id) %>">
-                      <h5 class="card-title"><%= submission.convoy.title %></h5>
-                    </a>
-                    <p class="card-title"><%= submission.convoy.departure_port %> - <%= submission.convoy.arrival_port %></p>
-                    <p class="card-title">Date de départ : <%= submission.convoy.date_of_departure.strftime("%d/%m/%Y") %></p>
-                    <p class="card-text"> <strong>Nombre de candidatures : <%= submission.convoy.submissions.size %></strong></p>
-                    <p class="card-text"><small class="text-muted">Last update <%= time_ago_in_words(submission.convoy.updated_at) %></small></p>
-                  </div>
+                    <div class="col-6">
+                      <a href="<%= convoy_path(submission.convoy.id) %>">
+                        <h5 class="card-title"><%= submission.convoy.title %></h5>
+                      </a>
+                      <p class="card-title"><%= submission.convoy.departure_port %> - <%= submission.convoy.arrival_port %></p>
+                      <p class="card-title">Date de départ : <%= submission.convoy.date_of_departure.strftime("%d/%m/%Y") %></p>
+                      <p class="card-text"> <strong>Nombre de candidatures : <%= submission.convoy.submissions.size %></strong></p>
+                      <p class="card-text"><small class="text-muted">Last update <%= time_ago_in_words(submission.convoy.updated_at) %></small></p>
+                    </div>
 
-                  <div class="col-6 text-right">
-                    <% if !submission.convoy.delivery %>
-                      <button class="btn btn-primary btn-sm noHover text-sm">Candidature envoyée</button>
-                    <% elsif submission.convoy.delivery %>              
-                        <% if submission.status == true %>
-                          <button class="btn btn-success btn-sm noHover text-sm">Candidature acceptée</button>
-                        <% else %>
-                          <button class="btn btn-warning btn-sm noHover text-sm">Candidature refusée</button>
-                        <% end %>
-                    <% end %>
+                    <div class="col-6 text-right">
+                      <% if !submission.convoy.delivery %>
+                        <button class="btn btn-primary btn-sm noHover text-sm">Candidature envoyée</button>
+                      <% elsif submission.convoy.delivery %>              
+                          <% if submission.status == true %>
+                            <button class="btn btn-success btn-sm noHover text-sm">Candidature acceptée</button>
+                          <% else %>
+                            <button class="btn btn-warning btn-sm noHover text-sm">Candidature refusée</button>
+                          <% end %>
+                      <% end %>
+                    </div>
+
                   </div>
 
                 </div>
-
               </div>
             </div>
           </div>

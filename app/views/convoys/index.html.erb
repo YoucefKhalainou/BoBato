@@ -6,94 +6,62 @@
 <!------------------------------- END BANNER ------------------------>
 <%= render :partial => "shared/errors" %>
     
-    <div class="site-section" id="listings-section">
-      <div class="container">
+<div class="site-section" id="listings-section">
+  <div class="container">
 
 <!------------------------------- FILTER + ITEM LIST SECTION ------------------------>    
-        <div class="row">
-          <!------------------------------- FILTER BAR ------------------------>
-          <div class="col-md-3 order-1 order-md-2">
-          <div class="mb-5">
-            <h3 class="text-black mb-4 h5 font-family-2">Filter</h3>
-            <form action="#">
-              <div class="form-group">
-                <div class="select-wrap">
-                  <span class="icon icon-keyboard_arrow_down"></span>
-                  <select class="form-control px-3">
-                    <option value="">By Date</option>
-                    <option value="">Trending</option>
-                    <option value="">Best</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="select-wrap">
-                  <span class="icon icon-keyboard_arrow_down"></span>
-                  <select class="form-control px-3">
-                    <option value="">1 Bath, 1 Bedroom</option>
-                    <option value="">2 Bath, 2 Bedroom</option>
-                    <option value="">3+ Bath, 3+ Bedroom</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="select-wrap">
-                  <span class="icon icon-keyboard_arrow_down"></span>
-                  <select class="form-control px-3">
-                    <option value="">For Sale</option>
-                    <option value="">For Rent</option>
-                    <option value="">For Lease</option>
-                  </select>
-                </div>
-              </div>
-            </form>
+    <div class="row">
+      <!------------------------------- FILTER BAR ------------------------>
+      <div class="col-md-3 order-1 order-md-2">
+      <div class="mb-5 ml-5">
+        <h3 class="text-black mb-4 h5 font-family-2">Filtrer</h3>
+          <%= simple_form_for :search, url: convoys_path, method: "GET", local: false, remote: true do |f| %>
+            <div class="form-label-sm">
+              <%= f.input :boats, label: "TYPE DE BATEAU",  collection: $boat_types, as: :check_boxes, onClick: "test" %>
+              <%= f.input :ports, label: "PORTS DE DEPART", collection: $departure_ports, as: :check_boxes %>
             </div>
-
-            <div class="mb-5">
-              <h3 class="text-black mb-4 h5 font-family-2">Filter by Price</h3>
-              <div id="slider-range" class="border-primary"></div>
-              <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
-            </div>
-          </div>
-          <!------------------------------- END FILTER BAR ------------------------>
-
-          <!------------------------------- CONVOY LIST ------------------------>
-            <div class="col-md-9 order-2 order-md-1">
-              <div class="row large-gutters">
-                <% @convoys.each_with_index do |convoy, i| %>
-                  <div class="col-md-6 col-lg-4 mb-5 mb-lg-5 ">
-                    <div class="ftco-media-1">
-                      <div class="ftco-media-1-inner">
-                        <a href="<%= convoy_path(convoy.id) %>" class="d-inline-block mb-4">
-                          <%= image_tag(convoy.picture_attachment_path, style:"height:346px; width:228px;")%>
-                        </a>
-                        <div class="ftco-media-details">
-                          <h3><%= convoy.boat_type %></h3>
-                          <p><%= convoy.departure_port %> - <%= convoy.arrival_port %></p>
-                          <strong><%= number_with_delimiter(convoy.convoy_price.round(0), delimiter: " ") %> €</strong>
-                        </div>
-                      </div> 
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          <!------------------------------- END ITEM LIST ------------------------>
+            <%= f.submit "Filtrer", class: "btn btn-primary", id: "filter-btn" %>
+            <%= link_to "Réinitialiser", convoys_path  %>
+          <% end %>
         </div>
+      </div>
+      <!------------------------------- END FILTER BAR ------------------------>
+
+      <!------------------------------- CONVOY LIST ------------------------>
+        <div class="col-md-9 order-2 order-md-1">
+          <div class="row large-gutters" id="convoys">
+            <%= render 'convoy', convoys: @convoys %>
+          </div>
+        </div>
+      <!------------------------------- END ITEM LIST ------------------------>
+    </div>
 <!------------------------------- END FILTER AND ITEM LIST SECTION ------------------------>
 
-        <!------------------------------- PAGINATION ------------------------>
+    <!------------------------------- PAGINATION ------------------------>
 
-        <div class="row mt-4">
-          <div class="col-md-9">
-            <div class="custom-pagination d-flex justify-content-center bd-highlight mb-3 text-center">
-              <div class="more-page"><%= paginate @convoys, :outer_window => 1, :window => 1 %></div>
-            </div>
-          </div>
+    <div class="row mt-4">
+      <div class="col-md-9">
+        <div class="custom-pagination d-flex justify-content-center bd-highlight mb-3 text-center">
+          <div class="more-page"><%= paginate @convoys, :outer_window => 1, :window => 1 %></div>
         </div>
       </div>
-
-        <!------------------------------- END PAGINATION ------------------------>
-
-      </div>
     </div>
+
+    <!------------------------------- END PAGINATION ------------------------>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  var checkBoxes = document.querySelectorAll(".form-check-input");
+  var form = document.querySelector('form');
+  var button = document.getElementById('filter-btn')
+  button.style.display = 'none';
+
+  for (const check of checkBoxes) {
+      check.addEventListener('change', function() {
+        button.click();
+        console.log("coucou")
+    });
+  }
+</script>

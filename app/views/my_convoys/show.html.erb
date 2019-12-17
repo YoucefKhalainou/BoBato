@@ -23,7 +23,7 @@
       <div class="col-lg-3">
         <div class="owl-carousel slide-one-item with-dots">
           <div>
-            <%= image_tag @my_convoy.picture_attachment_path, class: "img-fluid" %>
+            <%= image_tag @my_convoy.picture_attachment_path, class: "img-fluid card-image" %>
           </div>
         </div>
       </div>
@@ -62,13 +62,13 @@
           <div class="col-lg-7 pl-lg-7">
             <div class="mb-5">
               <p class="text-label">Description</p>
-              	<p>Ipsa tempore repudiandae optio aliquam perspiciatis est quae enim quaerat eos hic dolorem accusamus molestias repellat consequatur velit, officiis nihil magnam placeat!
+              	<p><%= @my_convoy.description %>
               	</p>
               <p class="text-label">Rémunération</p>
                 <p class="mb-4"><%=  number_with_delimiter(@my_convoy.convoy_price.round(0), delimiter: " ") %> €
                 </p>
           	  <% if !@my_convoy.delivery  %>
-                  <p><%= link_to "Modifier les informations", edit_convoy_path(@my_convoy.id), class:"btn btn-warning", style:"width:250px;" %></p>
+                  <p><a href="#editConvoy" class="btn btn-warning" style="width:250px;" data-toggle="modal" data-target="#editConvoy">Modifier les informations</a></p>
               		<p><%= link_to "Supprimer le convoyage", convoy_path(@my_convoy.id), :method => 'delete', class:"btn btn-danger", style:"width:250px;" %></p>
               <% else %>
               		<p><a href="#" class="btn btn-secondary noHover">Convoyage validé</a></p>
@@ -85,7 +85,11 @@
 </div>
 <!----------------- SHOW CONVOY ----------------->
 
-
+<!-------------- EDIT CONVOY MODAL --------------------->
+<div class="modal fade" id="editConvoy" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <%= render 'convoys/edit_convoy_modal', convoy: @my_convoy %>
+</div>
+<!-------------- EDIT CONVOY MODAL --------------------->
 
 <!------------------------ CONVOY SUBMISSIONS ----------------------------------------------------->
     <div class="container">

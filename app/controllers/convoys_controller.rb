@@ -3,8 +3,19 @@ class ConvoysController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
 
   def index
-    @convoys = Convoy.where("date_of_departure >= ?", Time.current).page(params[:page]).per(5)
+    if params["search"]
+      @filter = params["search"]["ports"].concat(params["search"]["boats"]).flatten.reject(&:blank?)
+      @convoys = Convoy.all.global_search("#{@filter}").page(params[:page]).per(6)
+    else
+      @convoys = Convoy.where("date_of_departure >= ?", Time.current).order(created_at: :desc).page(params[:page]).per(6)
+    end
+
+    respond_to do |format|
+      format.html {}
+      format.js {}
+    end 
   end
+
 
   def show
     @convoy = Convoy.find(params[:id])
@@ -22,11 +33,8 @@ class ConvoysController < ApplicationController
   def create
     @user = current_user
     @convoy = Convoy.new(convoy_params)
-    @convoy.boat_owner_id=current_user.id
-    # @convoy.pictures.attach(params[pictures:[]])
-    # @convoy.update(boat_owner: @user)
-    # title: params[:title],boat_type: params[:boat_type],required_license: params[:required_license],description: params[:description],departure_port: params[:departure_port],arrival_port:params[:arrival_port],date_of_departure: params[:date_of_departure],date_of_arrival: params[:date_of_arrival],convoy_price: params[:convoy_price])
-
+    @convoy.boat_owner = current_user
+    
     if @convoy.save
       flash[:success] = "Votre proposition de convoyage est enregistrée avec succés"
       redirect_to @convoy   
@@ -40,9 +48,10 @@ class ConvoysController < ApplicationController
     @convoy = Convoy.find(params[:id])
     if @convoy.update(convoy_params)
       flash[:success] = "La mise à jour de votre convoyage est bien enregistrée"
-      redirect_to @convoy
+      redirect_to request.referrer
     else
-      render 'edit'
+      flash[:errors] = @convoy.errors.full_messages
+      redirect_to request.referrer
     end
   end
 

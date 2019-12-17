@@ -34,7 +34,7 @@ class UserMailer < ApplicationMailer
   def delivery_to_admin_email(delivery)
     @delivery = delivery
     attachments.inline['logo-bobato-dark.png'] = File.read(Rails.application.assets['logo-bobato-dark.png'].pathname)
-    mail(to: "bobato.thp@gmail.com", subject: "Nouvelle commande de #{@delivery.convoy.boat_owner.profile.first_name}")     
+    mail(to: "bobato.thp.new@gmail.com", subject: "Nouvelle commande de #{@delivery.convoy.boat_owner.profile.first_name}")     
   end
 
   def submission_fail_email(submission)

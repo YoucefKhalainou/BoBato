@@ -3,7 +3,7 @@ class MyConvoysController < ApplicationController
 	before_action :authenticate_user!, only: [:index, :show]
 
 	def index
-		@my_convoys = User.find(params[:user_id]).convoys
+		@my_convoys = User.find(params[:user_id]).convoys.order(created_at: :desc)
 		@user = User.find(params[:user_id])
 	end
 

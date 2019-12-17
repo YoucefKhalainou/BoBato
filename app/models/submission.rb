@@ -2,8 +2,8 @@ class Submission < ApplicationRecord
 	belongs_to :convoy
 	belongs_to :skipper, class_name: "User"
 
-	validate :skipper_must_be_available_before_submit
-	after_create :submission_conf_email_send,
+	validate :skipper_must_be_available_before_submit, on: :create
+	after_create :submission_conf_email_send
 
 
 	def skipper_must_be_available_before_submit

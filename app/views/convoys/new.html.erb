@@ -17,50 +17,51 @@
 							<div class="col-3">
 								<span class="custom-icon flaticon-boat text-black"></span>
 			          		</div>
-			          		<div class="col-9 my-auto">
-			            		<h4 class="modal-title text-black text-right" id="exampleModalCenterTitle">Soumettre une proposition de convoyage</h4>
+			          		<div class="col-9 my-auto text-right">
+			            		<h4 class="modal-title text-black" id="exampleModalCenterTitle">Soumettre une proposition de convoyage</h4>
+			            		<span class="form-label-tiny">* : champs obligatoires</span>
 			          		</div>
 						</div>
 
 		          		<div class="row form-group">
 			          		<div class="col-md-6 mb-3 mb-md-0">
-			          			<label class="text-black form-label">Titre</label>
+			          			<label class="text-black form-label">Titre *</label>
 			            		<div class="input-group mb-2 mr-sm-2">
 			               			<%= text_field_tag 'title', value = params[:title], class:"form-control", placeholder:"Traversée à bord du Vogue Merry", required: true%>
 			            		</div>
 			          		</div>
 			          		<div class="col-md-6 mb-3 mb-md-0">
-			          			<label class="text-black form-label">Type de bateau</label>
+			          			<label class="text-black form-label">Type de bateau *</label>
 			             		<div class="input-group mb-2 mr-sm-2">
-			               			<%= text_field_tag 'boat_type', value = params[:boat_type], class:"form-control", placeholder:"ex: Voilier, Catamaran, Yacht etc.", required: true%>
+			               			<%= select_tag 'boat_type', options_for_select($boat_types), class:"form-control", value: params[:boat_type], required: true%>
 			               		</div>
 			                </div>
 						</div>
 						
 						<div class="row form-group">
 				            <div class="col-md-6 mb-3 mb-md-0">
-				             	<label class="text-black form-label">Port de départ</label>
+				             	<label class="text-black form-label">Port de départ *</label>
 				            	<div class="input-group mb-2 mr-sm-2">
-				              		<%= text_field_tag 'departure_port', value = params[:departure_port], class:"form-control", placeholder:"ex: Marseille", required: true%>
+				              		<%= select_tag 'departure_port', options_for_select($departure_ports), class:"form-control", value: params[:departure_port], required: true%>
 				            	</div>
 				          	</div>
 				          	<div class="col-md-6 mb-3 mb-md-0">
-				             	<label class="text-black form-label">Port d’arrivée</label>
+				             	<label class="text-black form-label">Port d’arrivée *</label>
 				            	<div class="input-group mb-2 mr-sm-2">
-				              		<%= text_field_tag 'arrival_port', value = params[:arrival_port], class:"form-control", placeholder:"ex: Le Pirée", required: true%>
+				              		<%= select_tag 'arrival_port', options_for_select($arrival_ports), class:"form-control", value: params[:arrival_port], required: true%>
 				            	</div>
 				          	</div>
 						</div>
 
 						<div class="row form-group">
 				          	<div class="col-md-6 mb-3 mb-md-0">
-				             	<label class="text-black form-label">Date de départ</label>
+				             	<label class="text-black form-label">Date de départ *</label>
 				            	<div class="input-group mb-2 mr-sm-2">
 				              		<%= date_field_tag 'date_of_departure', value = params[:date_of_departure],class:"form-control", value: Date.today + 1.day, required: true %>
 				            	</div>
 				          	</div>
 				          	<div class="col-md-6 mb-3 mb-md-0">
-				             	<label class="text-black form-label">Date d’arrivée</label>
+				             	<label class="text-black form-label">Date d’arrivée *</label>
 				            	<div class="input-group mb-2 mr-sm-2">
 				              		<%= date_field_tag 'date_of_arrival', value = params[:date_of_departure], class:"form-control", value: Date.today + 2.day, required: true %>
 				            	</div>
@@ -69,13 +70,13 @@
 
 						<div class="row form-group">
 					        <div class="col-md-6 mb-3 mb-md-0">
-					            <label class="text-black form-label">Licence requise</label>
+					            <label class="text-black form-label">Licence requise *</label>
 					            <div class="input-group mb-2 mr-sm-2">
 					              	<%= text_field_tag 'required_license', value = params[:required_license], class:"form-control", placeholder:"Permis côtier, hauturier...", required: true%>
 					            </div>
 					        </div>
 					        <div class="col-md-6 mb-3 mb-md-0">
-				             	<label class="text-black form-label">Rémunération du convoyage</label>
+				             	<label class="text-black form-label">Rémunération du convoyage *</label>
 				            	<div class="input-group mb-2 mr-sm-2">
 				               		<%= number_field_tag 'convoy_price',value = params[:convoy_price], min:"0", class:"form-control", placeholder:"€", required: true %>
 				            	</div>
@@ -86,16 +87,16 @@
 				            <div class="col-md-12 mb-3 mb-md-0">
 				             	<label class="text-black form-label">Description</label>
 				            	<div class="input-group mb-2 mr-sm-2">
-				              		<%= text_area_tag 'description', value = params[:description], class:"form-control", rows:"5", placeholder:"Décrivez votre besoin en quelques lignes", required: true %>
+				              		<%= text_area_tag 'description', value = params[:description], class:"form-control", rows:"5", placeholder:"Décrivez votre besoin en quelques lignes"%>
 				            	</div>
 				          	</div>
 				         </div>
 						
 						<div class="row form-group">
 				          	<div class="col-12">
-			            		<span class="addimage form-label">
+			            		<span class="form-label">
 			            			Ajouter des images : 
-			               			<%= file_field_tag 'pictures[]', multiple:true %>
+			               			<%= file_field_tag 'pictures[]' %>
 			  					</span>
 			  				</div>
 
